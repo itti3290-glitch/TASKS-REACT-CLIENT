@@ -1,0 +1,926 @@
+/* ===== בסיס ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background: #f5f6f8;
+  color: #1f2937;
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+h1 {
+  margin: 0 0 16px;
+}
+
+/* ===== כרטיס משימה ===== */
+.task-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-right: 6px solid #9ca3af;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.task-card h3 {
+  margin: 0;
+}
+
+.task-card p {
+  margin: 6px 0;
+  color: #4b5563;
+}
+
+.task-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-badge,
+.mine-badge {
+  font-size: 13px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #f3f4f6;
+}
+
+.mine-badge {
+  display: inline-block;
+  margin-top: 6px;
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.status-open {
+  border-right-color: #16a34a;
+}
+
+.status-partial {
+  border-right-color: #ea580c;
+}
+
+.status-full {
+  border-right-color: #9ca3af;
+}
+
+.status-past {
+  opacity: 0.6;
+}
+
+/* ===== ראש הלוח ===== */
+.board-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.board-header h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.board-header button {
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.board-header button:hover {
+  background: #f3f4f6;
+}
+
+/* ===== הלוח השבועי ===== */
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.day-box {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  min-height: 360px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.day-top {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.day-name {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.day-date {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.day-holiday {
+  align-self: flex-start;
+  max-width: 100%;
+  font-size: 12px;
+  font-weight: 600;
+  color: #92400e;
+  background: #fef3c7;
+  border-radius: 999px;
+  padding: 2px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.past-day {
+  opacity: 0.45;
+}
+
+.day-box.today {
+  border: 2px solid #2563eb;
+}
+/* ===== משימה בלוח ===== */
+.task-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-right: 4px solid #9ca3af;
+  border-radius: 8px;
+  padding: 6px 8px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.task-chip-title {
+  font-weight: 600;
+}
+
+.task-chip-time,
+.task-chip-status {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.chip-button {
+  margin-top: 4px;
+  align-self: flex-start;
+  font-size: 12px;
+  padding: 2px 10px;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.chip-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ===== חלון קופץ ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 10;
+}
+
+.modal-box {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.modal-box .task-card {
+  margin-bottom: 16px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+}
+
+.modal-button {
+  font-size: 15px;
+  padding: 8px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+.modal-button.primary {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+.modal-button.danger {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #ffffff;
+}
+
+/* ===== תפריט עליון ===== */
+.top-nav {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.top-nav a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ===== טפסים ===== */
+.form-card {
+  max-width: 360px;
+  margin: 40px auto;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-card h2 {
+  margin: 0;
+}
+
+.form-card label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.form-card input {
+  font-size: 15px;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.form-card button {
+  font-size: 15px;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.form-error {
+  margin: 0;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+.top-nav {
+  align-items: center;
+}
+
+.nav-user {
+  margin-right: auto;
+  color: #4b5563;
+}
+
+.nav-logout {
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 4px 12px;
+  cursor: pointer;
+}
+
+.form-card select,
+.form-card textarea {
+  font-size: 15px;
+  font-family: inherit;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.form-card button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* ===== בחירת מטופל (רשימה עם חיפוש) ===== */
+.combo {
+  position: relative;
+}
+
+.combo input {
+  width: 100%;
+  padding-left: 28px;
+}
+
+.combo-arrow {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.combo-list {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  z-index: 5;
+  list-style: none;
+  margin: 0;
+  padding: 4px;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.combo-list li {
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.combo-list li.highlighted {
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+.combo-list .combo-empty {
+  color: #6b7280;
+  cursor: default;
+}
+
+.modal-box .form-error {
+  margin-bottom: 12px;
+}
+
+.modal-note {
+  flex: 1;
+  font-size: 14px;
+  color: #92400e;
+  background: #fef3c7;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+/* ===== הודעות ===== */
+.nav-badge {
+  display: inline-block;
+  margin-right: 4px;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #dc2626;
+  color: #ffffff;
+  font-size: 12px;
+  text-align: center;
+}
+
+.messages {
+  max-width: 520px;
+}
+
+.messages-empty {
+  color: #6b7280;
+}
+
+.message {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message-text {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.modal-box {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.popup-title {
+  margin: 0 0 12px;
+  font-size: 20px;
+}
+
+.popup-hint {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+/* ===== אזור אישי ===== */
+.personal-user {
+  margin: -8px 0 16px;
+  color: #6b7280;
+}
+
+.personal-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.patient-list {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.patient-list h2,
+.patient-tasks h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.patient-link {
+  padding: 8px 10px;
+  border-radius: 8px;
+  color: #1f2937;
+  text-decoration: none;
+}
+
+.patient-link:hover {
+  background: #f3f4f6;
+}
+
+.patient-link.active {
+  background: #eff6ff;
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.patient-tasks h3 {
+  margin: 20px 0 10px;
+  font-size: 16px;
+  color: #4b5563;
+}
+
+@media (max-width: 700px) {
+  .personal-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.task-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.task-columns > div {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.task-columns h3 {
+  margin: 0 0 4px;
+}
+
+@media (max-width: 700px) {
+  .task-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== פירוט משימה ===== */
+.task-details {
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.task-details-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.task-details dt {
+  color: #6b7280;
+}
+
+.task-details dd {
+  margin: 0;
+  color: #1f2937;
+}
+
+.task-card-top .mine-badge {
+  margin-top: 0;
+}
+
+.form-switch {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+}
+
+.form-switch a {
+  color: #2563eb;
+}
+
+.code-patient {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* ===== לשוניות באזור האישי ===== */
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+}
+
+.tabs a {
+  padding: 8px 16px;
+  color: #4b5563;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tabs a.active {
+  color: #1e40af;
+  font-weight: 600;
+  border-bottom-color: #2563eb;
+}
+
+.tab-toolbar {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.tab-toolbar label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.tab-toolbar select {
+  font-size: 15px;
+  font-family: inherit;
+  padding: 6px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.profile-card {
+  max-width: 440px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.profile-card .task-details {
+  margin: 0;
+}
+
+.list-count {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.task-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+/* ===== עמוד מטופל ===== */
+.patient-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.patient-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  color: #1f2937;
+  text-decoration: none;
+}
+
+.patient-card:hover {
+  border-color: #2563eb;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12);
+}
+
+.patient-card-address {
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #2563eb;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.section-title {
+  margin: 24px 0 12px;
+  font-size: 18px;
+}
+
+.task-chip-volunteers {
+  font-size: 12px;
+  color: #374151;
+}
+
+/* ===== ניהול ===== */
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  font-size: 15px;
+  font-family: inherit;
+  padding: 7px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.tab-toolbar > select {
+  font-size: 15px;
+  font-family: inherit;
+  padding: 7px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.tab-toolbar {
+  align-items: flex-end;
+}
+
+.primary-button {
+  font-size: 15px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.inline-form {
+  margin: 0 0 16px;
+  max-width: 440px;
+}
+
+.inline-form h3 {
+  margin: 0;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.form-buttons button {
+  flex: 1;
+}
+
+.form-card button.secondary {
+  background: #ffffff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.admin-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+.admin-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-card h3 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.admin-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.admin-card-sub {
+  margin: 0;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.admin-card-label {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.team-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.team-member {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 4px 2px 10px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1e40af;
+  font-size: 13px;
+}
+
+.team-member button {
+  border: none;
+  background: none;
+  color: #6b7280;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 4px;
+}
+
+.team-member button:hover {
+  color: #dc2626;
+}
+
+.team-add {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.team-add select {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  font-family: inherit;
+  padding: 6px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.team-add button {
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 1px solid #2563eb;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #2563eb;
+  cursor: pointer;
+}
+
+.team-add button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* admin: delete button */
+.delete-button {
+  margin-top: 12px;
+  padding: 6px 12px;
+  border: 1px solid #dc2626;
+  border-radius: 6px;
+  background: none;
+  color: #dc2626;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.delete-button:hover:not(:disabled) {
+  background: #dc2626;
+  color: #ffffff;
+}
+
+.delete-button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/* shared loader, and the view switch on the board */
+.loader {
+  color: #6b7280;
+}
+
+.form-error {
+  display: block;
+}
+
+.tab-button {
+  padding: 8px 16px;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+  background: none;
+  color: #4b5563;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+.tab-button.active {
+  color: #1e40af;
+  font-weight: 600;
+  border-bottom-color: #2563eb;
+}
