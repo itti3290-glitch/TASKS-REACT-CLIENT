@@ -17,6 +17,10 @@ function App() {
   return (
     <main>
       <nav className="top-nav">
+        <Link to="/" className="brand">
+          <span className="brand-mark">✚</span>
+          ShiftUp
+        </Link>
         <Link to="/">לוח המשימות</Link>
         {user && <MessagesLink key={user.id} />}
         {user && <Link to="/me">אזור אישי</Link>}
