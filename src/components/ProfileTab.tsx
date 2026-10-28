@@ -116,7 +116,7 @@ function ProfileTab() {
           </div>
         ))}
       </dl>
-      <button onClick={() => setEditing(true)}>עריכת פרופיל</button>
+      <button className="primary-button" onClick={() => setEditing(true)}>עריכת פרופיל</button>
     </div>
   );
 }
