@@ -1,75 +1,56 @@
-# React + TypeScript + Vite
+# ShiftUp: אתר משמרות ומשימות למתנדבים
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+פרויקט גמר בקורס React. זה **האתר** (צד הלקוח). השרת נמצא ב-repository נפרד:
+https://github.com/itti3290-glitch/TASKS-REACT-SERVER
 
-Currently, two official plugins are available:
+המנהל מוסיף מטופלים ומשימות ומשייך מתנדבים לצוות של כל מטופל. המתנדבים רואים את המשימות של המטופלים שלהם, נרשמים אליהן, ויכולים לבקש מחליף.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**האתר החי:** https://tasks-0yf2.onrender.com
+(השרת החינמי נרדם אחרי זמן חוסר פעילות, ולכן הכניסה הראשונה יכולה לקחת כדקה.)
 
-## React Compiler
+## מה במערכת
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- כניסה והרשמה, עם שני סוגי משתמשים: מנהל ומתנדב.
+- **מנהל:** הוספה, עריכה ומחיקה של משימות; ניהול מטופלים ומתנדבים; שיוך מתנדבים לצוות של מטופל.
+- **מתנדב:** לוח שבועי (עם תאריך עברי וחגים), רשימה לפי סוג משימה, חיפוש וסינון לפי מטופל, מיון, הרשמה למשימה, בקשת מחליף, הודעות, ואזור אישי עם פרופיל שאפשר לערוך.
+- אי אפשר להירשם למשימה שמתחילה פחות מ-30 דקות לפני או אחרי משימה אחרת של אותו מתנדב.
+- סטטוס משימה מחושב ולא נשמר: פנויה, חסרים מתנדבים, מלאה, הסתיימה.
 
-## Expanding the ESLint configuration
+## טכנולוגיות
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+React, TypeScript, Vite, React Router, TanStack React Query, React Hook Form, Context, date-fns, @hebcal/core.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## הרצה מקומית
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+דרוש Node.js. קודם מריצים את השרת (ראו ה-README שלו), ואז:
 
 ```
+npm install
+npm run dev
+```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+האתר רץ בכתובת http://localhost:5173 ופונה כברירת מחדל לשרת ב-http://localhost:3000.
+כדי להפנות לשרת אחר, מגדירים את המשתנה `VITE_API_URL` לפני הבנייה, למשל:
+`VITE_API_URL=https://final-react-project-serw.onrender.com`
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## מבנה התיקיות
 
 ```
+src/
+├── components/      <- הקומפוננטות והעמודים
+├── AuthContext.tsx  <- המשתמש המחובר (Context)
+├── api.ts           <- כל הקריאות לשרת
+├── types.ts, utils.ts, hebrewDate.ts
+├── App.tsx, main.tsx, index.css
+```
+
+## משתמשי דוגמה
+
+אחרי הרצת `scripts/seed-demo.js` בשרת:
+
+| תפקיד | אימייל | סיסמה |
+| --- | --- | --- |
+| מתנדב | dana@demo.com | Demo1234 |
+| מתנדב | ori@demo.com | Demo1234 |
+
+כל הנתונים בדויים.
